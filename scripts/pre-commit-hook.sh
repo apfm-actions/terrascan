@@ -19,7 +19,7 @@ terrascan_() {
 
     let "index+=1"
   done
-  #put arguments array into runnable string 
+  #put arguments array into runnable string
   for i in "${ARGS[@]}"
   do
    PARAMS="${PARAMS} ${i}"
@@ -53,23 +53,28 @@ initialize_() {
 
 parse_cmdline_() {
   declare argv
-  argv=$(getopt -n Terrascan -o hi: --long help,iac-type: -- "$@") || return
+  argv=$(getopt -n Terrascan -o hi:d: --long help,iac-type:,iac-dir: -- "$@") || return
   eval "set -- $argv"
 
   for argv; do
     case $1 in
       -i | --iac-type)   #add support for all scan options ?
-        ARGS+=("$1")  #add flag 
-        ARGS+=("$2") 
-        shift 2       #shift up both args 
+        ARGS+=("$1")  #add flag
+        ARGS+=("$2")
+        shift 2       #shift up both args
         ;;
-      --)   
+      -d | --iac-dir)   #add support for all scan options ?
+        ARGS+=("$1")  #add flag
+        ARGS+=("$2")
+        shift 2       #shift up both args
+        ;;
+      --)
         shift
-        FILES+=("$@")  #not sure what to do with this, replace with -f, -d handling? 
+        FILES+=("$@")  #not sure what to do with this, replace with -f, -d handling?
         break
         ;;
-     *) 
-        shift 
+     *)
+        shift
     esac
   done
 }
